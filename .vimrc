@@ -6,6 +6,7 @@ set enc=utf-8
 set fenc=utf-8
 set termencoding=utf-8 
 
+" not compatible with vi
 set nocompatible
 set backspace=2
 
@@ -17,6 +18,30 @@ set expandtab
 
 set textwidth=120
 
+syntax enable
+filetype plugin on
+
+" Search down subfolders
+" Prvovides tab-completion for all file-related tasks
+set path+=**
+
+" Display all matching files when we tab complete
+set wildmenu 
+
+command MakeTags !ctags -R .
+command MakeGoTags !gotags -R . > ./tags
+"Ctrl X Ctrl F - to find files
+
+let g:netrw_banner=0         " disalbe annoying banner
+let g:netrw_browse_split=4   " open in prior window
+let g:netrw_altv=1           " open splits to the right
+let g:netrw_liststyle=3      " tree view
+let g:netrw_list_hide=netrw_gitignore#Hide()
+let g:netrw_list_hide.=',\(^\|s\s\)\zs\.\S\+'
+
+" - :edit a folder to open a file browser
+" - :<CR>/v/t to open in a h-split/v-split/tab
+" - check |netrw-browse-maps| for more mappings
 
 "let astronaut_bold=1      : use the bold modifier for term, cterm, and gui
 
@@ -47,10 +72,10 @@ inoremap <C-S-Tab> <C-O>:tabprev<CR>
 cnoremap <C-S-Tab> <C-C>:tabprev<CR>
 onoremap <C-S-Tab> <C-C>:tabprev<CR>
 
-noremap <C-t> :tabnew<CR>
-inoremap <C-t> <C-O>:tabnew<CR>
-cnoremap <C-t> <C-C>:tabnew<CR>
-onoremap <C-t> <C-C>:tabnew<CR>
+noremap <C-z> :tabnew<CR>
+inoremap <C-z> <C-O>:tabnew<CR>
+cnoremap <C-z> <C-C>:tabnew<CR>
+onoremap <C-z> <C-C>:tabnew<CR>
 
 
 
@@ -69,8 +94,3 @@ onoremap <C-d> <C-C>:call system("gnome-terminal --working-directory=".expand('%
 
 let Tlist_Ctags_Cmd = "/usr/bin/ctags"
 let Tlist_WinWidth = 50
-map <F4> :TlistToggle<cr>
-
-
-map <F6> :!/usr/bin/ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
-
